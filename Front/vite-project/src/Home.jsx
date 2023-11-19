@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 function Home(){
     const [data, setData] = useState([])
+    const [search, setSearch] = useState('')
+
     useEffect(() =>{
         axios.get('http://localhost:8081/')    
         .then(res => setData(res.data))
@@ -18,49 +20,42 @@ function Home(){
         .catch(err => console.log(err));
     }
 
-  return(
+    const seacher = (e) => {
+        setSearch(e.target.value)
+    }
     
-    <div className='d-flex min-vh-100 bg-primary justify-content-center align-items-center'>
-        <div className='w-75 bg-white rounded p-4'>
+    const results = !search ? data : data.filter((dato) => dato.apellidos.toLowerCase().includes(search.toLowerCase()));
+    
+    return(
+
+    <div className='d-flex min-vh-100 bg-dark justify-content-center align-items-center'>
+        <div className='w-75 bg-secondary rounded p-4'>
             <h2 className="mb-4">Lista de Contactos</h2>
-            <div className="d-flex justify-content-end">
-                <Link to = "/create" className="btn btn-success" >Crear +</Link>
+            <p></p>
+            <div>
+                <input value={search} onChange={seacher}
+                type="text" placeholder="Ingresar Apellido" className="form-control" />
             </div>
-            <div className="table-responsive">
-                <table className='table'>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>Correo</th>
-                            <th>Fecha de nacimiento</th>
-                            <th>Foto</th>
-                            <th>Opciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((contactos, index) => {
-                            return <tr key={index}>
-                                <td>{contactos.id}</td>
-                                <td>{contactos.nombre}</td>
-                                <td>{contactos.apellidos}</td>
-                                <td>{contactos.correo}</td>
-                                <td>{new Date(contactos.fecha_nac).toLocaleDateString()}</td>
-                                <td>
-                                    {contactos.foto}
-                                </td>
-                                <td className="text-center">
-                                    <div className="btn-group" role="group" aria-label="Opciones">
-                                        <Link to={`/read/${contactos.id}`} className="btn btn-sm btn-info">Ver</Link>
-                                        <Link to={`/edit/${contactos.id}`}className="btn btn-sm btn-primary mx-2">Editar</Link>
-                                        <button onClick={() => handleDelete(contactos.id)} className="btn btn-sm btn-danger">Borrar</button> 
-                                    </div>
-                                </td>
-                            </tr>
-                        })}
-                    </tbody>
-                </table>
+            <p></p>
+            <div className="d-flex justify-content-end">
+                <Link to="/create" className="btn btn-success">Crear +</Link>
+            </div>
+            <p></p>
+            <div className="card-columns ">
+                {results.map((contactos, index) => (
+                    <div className="card bg-dark" key={index}>
+                        
+                        <div className="card-body">
+                            <img src="https://img.freepik.com/foto-gratis/hombre-morena-sobre-fondo-blanco-aislado_1368-4406.jpg?w=826&t=st=1700430373~exp=1700430973~hmac=b600f2a9ae3cc78a6e6fd611d430f99e634b5085b3c2871e3458cd141c00f5d0" alt="" width="300"  height="300" />
+                            <h2 className="card-title text-white">{contactos.nombre} {contactos.apellidos}</h2>
+                            <div className="btn-group" role="group" aria-label="Opciones">
+                                <Link to={`/read/${contactos.id}`} className="btn btn-info">Ver</Link>
+                                <Link to={`/edit/${contactos.id}`} className="btn btn-primary mx-2">Editar</Link>
+                                <button onClick={() => handleDelete(contactos.id)} className="btn btn-danger">Borrar</button>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     </div>

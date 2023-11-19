@@ -15,8 +15,7 @@ export default function Update() {
             setValues({...values, nombre: res.data[0].nombre, 
                 apellidos: res.data[0].apellidos, 
                 correo: res.data[0].correo, 
-                fecha_nac: res.data[0].fecha_nac, 
-                foto: res.data[0].foto});
+                fecha_nac: res.data[0].fecha_nac});
         })
         .catch(err => console.log(err))
     }, [])
@@ -25,8 +24,7 @@ export default function Update() {
         nombre: '',
         apellidos: '',
         correo:'',
-        fecha_nac: '',
-        foto: ''
+        fecha_nac: ''
     })
 
     const handleUpdate = (event) => {
@@ -39,8 +37,8 @@ export default function Update() {
     }
 
   return (
-    <div className='d-flex vh-100 bg-primary justify-content-center align-items-center'>
-      <div className='w-75 bg-white rounded p-4'>
+    <div className='d-flex vh-100 bg-dark justify-content-center align-items-center'>
+      <div className='w-75 bg-secondary rounded p-4'>
         <form onSubmit={handleUpdate}>
             <h2>Actualizar Contacto</h2>
             <div className='mb-2'>
@@ -62,11 +60,6 @@ export default function Update() {
                 <label htmlFor="">Fecha de Nacimiento</label>
                 <input type="date" placeholder='Ingresa tu fecha de nacimiento' className='form-control' value={values.fecha_nac}
                 onChange={e => setValues({...values, fecha_nac: e.target.value})}/>
-            </div>
-            <div className='mb-2'>
-                <label htmlFor="">Foto</label>
-                <input type="" placeholder='Ingresa tu foto' className='form-control' value={values.foto}
-                onChange={e => setValues({...values, foto: e.target.value})}/>
             </div>
             <button className='btn btn-success'>Actualizar</button>
         </form>
