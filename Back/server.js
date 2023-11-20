@@ -1,13 +1,16 @@
 import express from 'express'
 import mysql from 'mysql'
 import cors from 'cors'
-import fileUpload from 'express-fileupload';
+import fileUpload from 'express-fileupload'
+
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-//Coloca tu base de datos 
+
+
+
 const db = mysql.createConnection({
     host: "database-1.c4hagwzmruqp.us-east-2.rds.amazonaws.com",
     user: "admin",
@@ -86,5 +89,5 @@ app.delete('/delete/:id', (req, res) => {
 })
 
 app.listen(8081, ()=>{
-    console.log("Listening");    
+    console.log("Listening on http://localhost:"+8081);    
 })
